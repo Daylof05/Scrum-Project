@@ -42,20 +42,12 @@ export default function CreateParty() {
 
         axios.post('http://localhost:2000/createparty', {
             partyCode: partyCode,
-            partyName: partyName
-        }).then(function (response) {
-            console.log(response);
-            navigate('/app');
-        })
-            .catch(function (error) {
-                console.log(error);
-            })
-
-        axios.post('http://localhost:2000/createplayer', {
+            partyName: partyName,
             playerName: userName,
             playerType: playerType
         }).then(function (response) {
             console.log(response);
+            navigate('/app');
         })
             .catch(function (error) {
                 console.log(error);
