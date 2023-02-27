@@ -7,7 +7,7 @@ const partieSchema = new mongoose.Schema({
 
 const userSchema = new mongoose.Schema({
     pseudo: { type: String, required: true },
-    role: { type: String, enum: ['CM', 'PO', 'Team', 'SM'], required: true }
+    role: { type: String, enum: ['CP', 'PO', 'Team', 'SM'], required: true }
 });
 
 const sprintSchema = new mongoose.Schema({

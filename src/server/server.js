@@ -47,7 +47,6 @@ app.post('/createparty', async (req, res) => {
     await partie.save()
         .then(() => {
             console.log('Partie ajouté à la base de données !');
-            res.sendStatus(201);
         })
         .catch(() => {
             console.log('Erreur lors de l\'ajout de la partie à la base de données');
@@ -67,8 +66,7 @@ app.post('/createparty', async (req, res) => {
 })
 
 app.post('/joinparty', async (req, res) => {
-
-    const verifyCode = await Partie.countDocuments({ code: req.body.code });
+    const verifyCode = await Partie.find({ code: req.body.code });
     if (verifyCode.length > 0) {
         res.sendStatus(201);
     }
@@ -212,15 +210,3 @@ daily.save()
 app.listen(2000, () => {
     console.log('app listening on port 2000')
 });
-
-
-
-
-
-// let party = requete pour récupéré ma party où le code = req.body.code
-
-// if(party.length > 0){
-// existe
-// } else{
-//     n'existe pas
-// }
