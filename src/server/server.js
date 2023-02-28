@@ -3,7 +3,7 @@ const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const { Partie, User, Sprint, Storie, Daily } = require('./schemas');
+const { Partie, User, Sprint, Storie, Daily, Tchat } = require('./schemas');
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -66,9 +66,24 @@ app.post('/createparty', async (req, res) => {
 })
 
 app.post('/joinparty', async (req, res) => {
-    const verifyCode = await Partie.find({ code: req.body.code });
+    console.log(req.body);
+    const verifyCode = await Partie.find({ code: req.body.partyCode });
+    console.log(typeof verifyCode);
     if (verifyCode.length > 0) {
-        res.sendStatus(201);
+        const user = new User({ pseudo: req.body.playerName, role: req.body.playerType });
+        const partyName = verifyCode[0].nom;
+        console.log(user);
+        await user.save()
+            .then(() => {
+                console.log('Utilisateur ajouté à la base de données !');
+                res.status(201).json({
+                    partyName: partyName
+                });
+            })
+            .catch(() => {
+                console.log('Erreur lors de l\'ajout de l\'utilisateur à la base de données');
+                res.sendStatus(403);
+            })
     }
     else {
         res.sendStatus(403);
@@ -85,6 +100,20 @@ app.post('/createplayer', async (req, res) => {
         })
         .catch(() => {
             console.log('Erreur lors de l\'ajout de l\'utilisateur à la base de données');
+            res.sendStatus(403);
+        })
+})
+
+app.post('/createmessage', async (req, res) => {
+    console.log(req.body);
+    const message = new Tchat({ user: req.body.pseudo, message: req.body.message });
+    await message.save()
+        .then(() => {
+            console.log('Message créé');
+            res.sendStatus(201);
+        })
+        .catch(() => {
+            console.log('Erreur lors de l\'ajout du message');
             res.sendStatus(403);
         })
 })
@@ -146,6 +175,34 @@ app.post('/user', async (req, res) => {
     }
 });
 
+app.post('/getMessage', async (req, res) => {
+    try {
+        const message = await Tchat.find();
+        console.log(message)
+        res.status(201).json({
+            message: message
+        })
+    }
+    catch (error) {
+        console.log(error);
+        res.sendStatus(403);
+    }
+})
+
+app.post('/users', async (req, res) => {
+    try {
+        const users = await User.find();
+        console.log(users)
+        res.status(201).json({
+            users: users,
+        })
+    }
+    catch (error) {
+        console.log(error);
+        res.sendStatus(403);
+    }
+});
+
 
 app.post('/createsprint', async (req, res) => {
     console.log(req.body);
@@ -196,6 +253,30 @@ app.post('/deleteStorie', async (req, res) => {
         res.sendStatus(403);
     }
     else {
+        res.sendStatus(201);
+    }
+})
+
+app.post('/deleteUser', async (req, res) => {
+
+    await User.deleteOne({ _id: req.body.id });
+
+    const verifyData = await User.countDocuments({ _id: req.body.id });
+    if (verifyData.length > 0) {
+        res.sendStatus(403);
+    }
+    else {
+        res.sendStatus(201);
+    }
+})
+
+app.post('/deleteTchat', async (req, res) => {
+    await Tchat.deleteMany();
+    const verifyData = await Tchat.countDocuments();
+    if (verifyData.length > 0) {
+        res.sendStatus(403);
+    }
+    else{
         res.sendStatus(201);
     }
 })

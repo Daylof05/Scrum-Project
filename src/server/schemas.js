@@ -7,7 +7,7 @@ const partieSchema = new mongoose.Schema({
 
 const userSchema = new mongoose.Schema({
     pseudo: { type: String, required: true },
-    role: { type: String, enum: ['CP', 'PO', 'Team', 'SM'], required: true }
+    role: { type: String, enum: ['CP', 'PO', 'TEAM', 'SM'], required: true }
 });
 
 const sprintSchema = new mongoose.Schema({
@@ -26,16 +26,23 @@ const dailySchema = new mongoose.Schema({
     reponse: { type: String, required: true }
 })
 
+const tchatSchema = new mongoose.Schema({
+    user: { type: String, required: true },
+    message: { type: String}
+})
+
 const Partie = mongoose.model('Partie', partieSchema);
 const User = mongoose.model('User', userSchema);
 const Sprint = mongoose.model('Sprint', sprintSchema);
 const Storie = mongoose.model('Storie', storieSchema);
 const Daily = mongoose.model('Daily', dailySchema);
+const Tchat = mongoose.model('Tchat', tchatSchema);
 
 module.exports = {
     Partie,
     User,
     Sprint,
     Storie,
-    Daily
+    Daily,
+    Tchat
 };

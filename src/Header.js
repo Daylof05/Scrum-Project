@@ -1,7 +1,6 @@
 import React, {useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 
-// const userName = localStorage.getItem("userName");
 
 const Header = () => {
     const [userName, setUserName] = useState(localStorage.getItem('userName'));

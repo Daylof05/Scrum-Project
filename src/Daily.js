@@ -3,101 +3,133 @@ import Button from '@mui/material/Button';
 import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Header from './Header';
+import { makeStyles } from '@material-ui/core/styles';
+import './Sprints.css';
 import axios from 'axios';
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
+import { Card, CardContent, Typography } from '@mui/material';
+import { useForm } from "react-hook-form";
 
-function Daily() {
+
+const useStyles = makeStyles({
+  root: {
+    minWidth: 275,
+    margin: '20px'
+  },
+  bullet: {
+    display: 'inline-block',
+    margin: '0 2px',
+    transform: 'scale(0.8)'
+  },
+  title: {
+    fontSize: 14
+  },
+  pos: {
+    marginBottom: 12
+  }
+});
+
+
+
+export default function Daily() {
+  const { register, handleSubmit } = useForm();
+  const classes = useStyles();
+  const [pseudo, setPseudo] = useState(localStorage.getItem('userName'));
+  const [tchat, setTchat] = useState([]);
+
 
   useEffect(() => {
     setTimeout(() => {
-
-
-      axios.post('http://localhost:2000/partie')
+      axios.post('http://localhost:2000/getMessage')
         .then(function (response) {
-          console.log(response.data);
+          console.log(response.data.message);
+          setTchat(response.data.message);
         })
         .catch(function (error) {
           console.log(error);
         });
-
-      axios.post('http://localhost:2000/user')
-        .then(function (response) {
-          console.log(response.data);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-
     }, 3000);
   }, []);
+
+
+  const onSubmit = data => {
+    console.log(data.message);
+    console.log(pseudo);
+
+    axios.post('http://localhost:2000/createmessage', {
+      pseudo: pseudo,
+      message: data.message
+    }).then(function (response) {
+      window.location.reload(true);
+    })
+      .catch(function (error) {
+        console.log(error);
+      })
+
+  };
+
+  const cloturer = () => {
+    axios.post('http://localhost:2000/deleteTchat', {
+
+    }).then(function (response) {
+      window.location.reload(true);
+    })
+      .catch(function (error) {
+        console.log(error);
+      })
+  }
+
 
   return (
     <div>
       <center>
         <Header />
-        <TextField
-          id="party-name"
-          margin="normal"
-          label=""
-          defaultValue="Nom de la partie"
-          InputProps={{
-            readOnly: true,
-          }}
-        />
-        <br></br>
-        <TextField
-          id="party-code"
-          margin="normal"
-          label=""
-          defaultValue="Code:"
-          InputProps={{
-            readOnly: true,
-          }}
-        />
-        <h1>Ont parlé :</h1>
-        <TextField
-          id="player1"
-          margin="normal"
-          label=""
-          defaultValue="Player 1"
-          InputProps={{
-            readOnly: true,
-          }}
 
-        />
-        <br></br>
-        <TextField
-          id="player2"
-          margin="normal"
-          label=""
-          defaultValue="Player 2"
-          InputProps={{
-            readOnly: true,
-          }}
+        {tchat?.map((tchat) => (
+          <Card key={tchat._id} className={classes.root}>
+            <CardContent className='cardMessage'>
+              <Typography
+                color="textSecondary"
+                gutterBottom
+              >
+                <br></br>
+                Envoyé par :{tchat.user}
+              </Typography>
+              <Typography
+                color="textSecondary"
+                gutterBottom
+              >
+                <br></br>
+                Message: {tchat.message}
+              </Typography>
+              <Typography
+                color="textSecondary"
+                gutterBottom
+              >
+              </Typography>
+            </CardContent>
+          </Card>
+        ))}
+        <form onSubmit={handleSubmit(onSubmit)}>
+          < br ></br>
+          <TextField
+            id="textInput"
+            label="Ecrivez ici"
+            {...register("message", { required: true })}
+          />
+          <br></br><br></br>
 
-        />
-        <TextField
-          id="player3"
-          margin="normal"
-          label=""
-          defaultValue="Player 3"
-          InputProps={{
-            readOnly: true,
-          }}
+          <Button id="submit" variant="contained" type="submit">Envoyer</Button>
 
-        />
-        <br></br><br></br>
-        <a href="/daily">
-          <Button variant="contained">Clotûrer le Daily</Button>
-        </a>
+          <br></br><br></br>
+        </form>
+        <Button variant="contained" onClick={cloturer}>Clotûrer le Daily</Button>
         <br></br><br></br>
         <a href="/app">
           <Button variant="contained">retour</Button>
         </a>
         <br></br><br></br>
       </center>
-    </div>
+    </div >
   );
 }
-
-export default Daily;

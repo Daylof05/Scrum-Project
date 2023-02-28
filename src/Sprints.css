@@ -33,6 +33,15 @@ border-top-right-radius: 5px;
 .cardsprint {
     background-color: rgb(87, 87, 255);
 }
+
+.carduser {
+    background-color: green;
+}
+
+.cardMessage {
+    background-color: white;
+}
+
 .DeleteButton {
     background-color: red;
     color: white;

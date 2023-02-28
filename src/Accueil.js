@@ -2,7 +2,7 @@ import './Accueil.css';
 import Button from '@mui/material/Button';
 import * as React from 'react';
 
-function Accueil() {
+export default function Accueil() {
   return (
 
    <div>
@@ -24,5 +24,3 @@ function Accueil() {
     </div>
   );
 }
-
-export default Accueil;

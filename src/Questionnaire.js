@@ -5,7 +5,7 @@ import Header from './Header';
 import axios from 'axios';
 import {useState, useEffect} from 'react';
 
-function Questionnaire() {
+export default function Questionnaire() {
 
   useEffect(() => {
     setTimeout(() => {
@@ -96,5 +96,3 @@ function Questionnaire() {
     </div>
   );
 }
-
-export default Questionnaire;

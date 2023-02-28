@@ -43,13 +43,6 @@ export default function Stories() {
     }, 3000);
   }, []);
 
-  // useEffect(() => {
-  //   const data = localStorage.getItem('stories');
-  //   if (data) {
-  //     setStories(JSON.parse(data));
-  //   }
-  // }, []);
-
   const handleDelete = (id) => {
     axios.post('http://localhost:2000/deleteStorie', {
       id: id,
@@ -62,26 +55,9 @@ export default function Stories() {
       });
   };
 
-  // const [selectedStorieIndex, setSelectedStorieIndex] = useState(null);
   const handleEdit = (index) => {
-    // setSelectedStorieIndex(index);
     console.log("modification");
   };
-
-  // const handleUpdate = (property, value) => {
-  //   const newStories = [...stories];
-  //   newStories[selectedStorieIndex][property] = value;
-  //   setStories(newStories);
-  // };
-
-  // const handleSave = () => {
-  //   localStorage.setItem('stories', JSON.stringify(stories));
-  //   setSelectedStorieIndex(null);
-  // };
-
-  // const handleCancel = () => {
-  //   setSelectedStorieIndex(null);
-  // };
 
   return (
     <div>

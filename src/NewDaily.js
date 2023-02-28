@@ -6,7 +6,7 @@ import Header from './Header';
 import axios from 'axios';
 import {useState, useEffect} from 'react';
 
-function NewDaily() {
+export default function NewDaily() {
 
   useEffect(() => {
     setTimeout(() => {
@@ -68,5 +68,3 @@ function NewDaily() {
     </div>
   );
 }
-
-export default NewDaily;

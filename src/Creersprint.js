@@ -6,7 +6,7 @@ import './Creersprint.css';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
-function Creersprint() {
+export default function Creersprint() {
   const [numSprint, setNumSprint] = useState('');
   const [dateSprint, setDateSprint] = useState('');
   const [dureeSprint, setDureeSprint] = useState('');
@@ -117,4 +117,3 @@ function Creersprint() {
     </div>
   );
 }
-export default Creersprint;

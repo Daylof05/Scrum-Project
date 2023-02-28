@@ -3,7 +3,7 @@ import * as React from 'react';
 import './Creersprint.css';
 import Header from './Header';
 
-function Creersprint() {
+export default function Creersprint() {
   return (
     <div>
       <center>
@@ -20,11 +20,5 @@ function Creersprint() {
         <br></br>        
       </center>
     </div>
-    
-      
-
-    
   );
 }
-
-export default Creersprint;

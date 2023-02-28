@@ -6,7 +6,7 @@ import './Creerstorie.css';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
-function Creerstorie() {
+export default function Creerstorie() {
   const [nomStorie, setNomStorie] = useState('');
 
   const [nbPEStorie, setNbPEStorie] = useState('');
@@ -106,4 +106,3 @@ function Creerstorie() {
     </div>
   );
 }
-export default Creerstorie;

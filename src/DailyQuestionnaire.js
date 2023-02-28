@@ -5,7 +5,7 @@ import Header from './Header';
 import axios from 'axios';
 import {useState, useEffect} from 'react';
 
-function DailyQuestionnaire() {
+export default function DailyQuestionnaire() {
 
   useEffect(() => {
     setTimeout(() => {
@@ -79,5 +79,3 @@ function DailyQuestionnaire() {
     </div>
   );
 }
-
-export default DailyQuestionnaire;
